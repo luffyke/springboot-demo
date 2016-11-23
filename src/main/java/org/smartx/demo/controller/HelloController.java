@@ -1,5 +1,6 @@
 package org.smartx.demo.controller;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,9 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class HelloController {
 
+    @Value("${app.name}")
+    private String appName;
+
     @RequestMapping("/")
     public String index() {
-        return "Hello Spring Boot";
+        return "Hello Spring Boot!" + appName;
     }
 
 }

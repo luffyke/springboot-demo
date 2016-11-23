@@ -13,10 +13,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author kext
  */
 @SpringBootApplication
-public class HelloMain {
+public class Application {
 
     public static void main(String[] args) {
-        SpringApplication.run(HelloMain.class, args);
+        SpringApplication.run(Application.class, args);
     }
 
 }
