@@ -1,5 +1,5 @@
-### 热部署
-#### 添加springload依赖
+## 热交换
+### 添加springload依赖
 pom.xml
 ```
 <dependency>
@@ -49,5 +49,5 @@ Hello Again%
 ```
 
 
-#### 使用IDEA问题
-IDEA默认没自动编译，所以修改代码后不会立即生效，需要手动build一下，快捷键command+shift+G
+### 使用IDEA问题
+IDEA默认没自动编译，所以修改代码后不会立即生效，需要手动build一下，快捷键command+shift+G。
