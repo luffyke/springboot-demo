@@ -53,3 +53,6 @@ private AppConfig appConfig;
 
 ### 支持yaml
 具体可以参考官方文档[spring boot yaml](http://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-external-config.html#boot-features-external-config-yaml)。
+
+### 常用配置
+参考[common application properties])(http://docs.spring.io/spring-boot/docs/current-SNAPSHOT/reference/htmlsingle/#common-application-properties)
