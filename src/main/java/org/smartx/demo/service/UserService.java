@@ -1,7 +1,5 @@
 package org.smartx.demo.service;
 
-import org.springframework.stereotype.Service;
-
 /**
  * <p>
  *
@@ -11,6 +9,7 @@ import org.springframework.stereotype.Service;
  *
  * @author kext
  */
-@Service
-public class UserService {
+public interface UserService {
+
+    String findNameById(Integer id);
 }
