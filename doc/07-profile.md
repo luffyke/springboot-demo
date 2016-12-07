@@ -46,3 +46,92 @@ maven方式可以设置run.profiles来运行：
 ```
 mvn spring-boot:run -Drun.profiles=dev
 ```
+
+### 日志
+对不同的环境进行不同的日志控制，例如一般dev是debug level，prod是info level。分别对logback，log4j和log4j2进行profile配置。
+#### logback
+logback-spring.xml
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/base.xml" />
+
+    <appender name="DAILY_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>logs/app.%d{yyyy-MM-dd-HH-mm}.log</FileNamePattern>
+        </rollingPolicy>
+        <encoder>
+            <Pattern>${FILE_LOG_PATTERN}</Pattern>
+        </encoder>
+    </appender>
+
+    <springProfile name="dev">
+        <logger name="org.smartx.demo" level="DEBUG">
+            <appender-ref ref="DAILY_FILE"/>
+        </logger>
+    </springProfile>
+
+    <springProfile name="prod">
+        <logger name="org.smartx.demo" level="INFO">
+            <appender-ref ref="DAILY_FILE"/>
+        </logger>
+    </springProfile>
+
+</configuration>
+```
+
+#### log4j
+pom.xml
+```
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-web</artifactId>
+</dependency>
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter</artifactId>
+    <exclusions>
+        <exclusion>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-logging</artifactId>
+        </exclusion>
+    </exclusions>
+</dependency>
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-log4j</artifactId>
+</dependency>
+```
+logging.properties
+```
+# LOG4J配置
+log4j.category.org.smartx.demo=${logging.level.org.smartx.demo}, demofile
+# com.didispace下的日志输出
+log4j.appender.demofile=org.apache.log4j.DailyRollingFileAppender
+log4j.appender.demofile.file=logs/app.log
+log4j.appender.demofile.DatePattern='.'yyyy-MM-dd
+log4j.appender.demofile.layout=org.apache.log4j.PatternLayout
+log4j.appender.demofile.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss,SSS} %5p %c{1}:%L ---- %m%n
+```
+application-dev.properties
+```
+logging.level.org.smartx.demo=DEBUG
+```
+
+application-prod.properties
+```
+logging.level.org.smartx.demo=INFO
+```
+
+#### log4j2
+pom.xml
+跟log4j类似，不过依赖改成**spring-boot-starter-log4j2**。
+可以通过application-{profile}.properties的logging.config进行控制。
+application-dev.properties
+```
+logging.config=log4j2-dev.xml
+```
+
+```
+logging.config=log4j2-prod.xml
+```

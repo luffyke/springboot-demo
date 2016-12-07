@@ -2,7 +2,6 @@
 
 #### 默认
 spring boot在所有内部使用[Commons Logging](http://commons.apache.org/proper/commons-logging/)，但是默认配置也提供了对常用日志的支持，如：[Java Utils Logging](http://docs.oracle.com/javase/7/docs/api/java/util/logging/package-summary.html)，[log4j](http://logging.apache.org/log4j/1.2/)，[log4j2](http://logging.apache.org/log4j/2.x/)，[logback](http://logback.qos.ch/)。每种Logger都可以通过配置使用控制台或者文件输出日志内容。
-> 日志框架可以参考[Java日志](https://tower.im/projects/ff544b8f5dbe4314b8608a36e278fa15/docs/701370683fc1451c8efc078dbfb77995/)
 
 日志的默认输入方式（java -jar或者mvn spring-boot:run）是直接打印在控制台。
 使用服务运行（/etc/init.d/demo start）日志是放在/var/log/demo中的。
@@ -72,7 +71,7 @@ Spring Boot包含了一些Logback扩展可以帮助我们进行高级配置，�
 
 > 因为logback.xml加载的比较早，你不能在标准的logback.xml中使用这些配置，你需要在logback-spring.xml中或者定义一个logging.config属性中使用。
 
-#### 标明profile配置
+#### profile配置
 
 <springProfile>标签允许你可选的包含或者排除基于激活的Spring profiles的配置，<configuration>元素里面的任何位置都是支持Profile sections的， 使用name属性标识哪个profile使用配置，多个profiles可以使用逗号隔开表示。
 ```
@@ -85,4 +84,15 @@ Spring Boot包含了一些Logback扩展可以帮助我们进行高级配置，�
 <springProfile name="!production">
     <!-- configuration to be enabled when the "production" profile is not active -->
 </springProfile>
+```
+
+#### Environment配置
+Spring Boot 也可以采用<springProperty> 标签来获取在Spring Environment 中定义的属性。也就是说可以在logback 配置文件中获取在application.properties 中定义的变量。通常它也能直接工作在logback 的<property> 标签中。具体配置如下：
+```
+<springProperty scope="context" name="fluentHost" source="myapp.fluentd.host"
+        defaultValue="localhost"/>
+<appender name="FLUENT" class="ch.qos.logback.more.appenders.DataFluentAppender">
+    <remoteHost>${fluentHost}</remoteHost>
+    ...
+</appender>
 ```
