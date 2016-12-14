@@ -9,3 +9,4 @@ Spring boot basic demo, with documents and code.
 5. [Logging](./doc/05-logging.md)
 6. [Embedde Container](./doc/06-embedded-container.md)
 7. [Profiles](./doc/07-profile.md)
+8. [Mysql](./doc/08-mysql.md)
